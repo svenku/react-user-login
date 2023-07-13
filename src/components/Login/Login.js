@@ -13,10 +13,20 @@ const Login = (props) => {
 
 
 // check form validity whenever depencencies [enteredEmail, enteredPassword] change 
+// use and reset a timeout of 500ms to prevent checking after each keystroke
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    const timerID = setTimeout(() => {
+      console.log('Checking form validity');
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+
+    return () => {
+      console.log('Resetting timer')
+      clearTimeout(timerID);
+    };
+    
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
